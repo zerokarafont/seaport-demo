@@ -7,12 +7,14 @@ export async function get1155Order() {
 
 export async function get1155List(params = {}) {
     // const { address = '0xa29b704A0fC0E61dFB4F3FFeB051D0831FA5643A' } = params;
-    const { address = '0x5D69dC7Ad884aDc41Ccb31EB42AaA7F252dEA445' } = params;
+    // const { address = '0x5D69dC7Ad884aDc41Ccb31EB42AaA7F252dEA445' } = params;
+    const { address = '0xA3C97E32428e8608D4bE4Dfbf3F196C1A7F1743B' } = params;
 
     const openseaData = await opensea.get('/assets', {
         params: {
             owner: address,
-            include_orders: false
+            include_orders: false,
+            // order_direction: 'asc'
         }
     })
     console.log('opensea', openseaData)
@@ -21,15 +23,15 @@ export async function get1155List(params = {}) {
             chain: 'rinkeby'
         }
     })
-    console.log('moralis', moralisDasta)
-    if (openseaData && Array.isArray(openseaData.assets) && openseaData.assets.length) {
-        return openseaData.assets.filter(item => item.asset_contract?.schema_name === 'ERC1155').map(item => ({
-            cover: convertIPFStoHTTP(item.image_url),
-            name: item.name,
-            tokenId: item.token_id,
-            contract: item.asset_contract?.address
-        }))
-    }
+    console.log('moralis', moralisData)
+    // if (openseaData && Array.isArray(openseaData.assets) && openseaData.assets.length) {
+    //     return openseaData.assets.filter(item => item.asset_contract?.schema_name === 'ERC1155').map(item => ({
+    //         cover: convertIPFStoHTTP(item.image_url),
+    //         name: item.name,
+    //         tokenId: item.token_id,
+    //         contract: item.asset_contract?.address
+    //     }))
+    // }
 
     if (moralisData && Array.isArray(moralisData.result) && moralisData.result.length) {
         return moralisData.result.filter(item => item.contract_type === 'ERC1155').map(item => ({
