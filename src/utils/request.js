@@ -25,13 +25,20 @@ const opensea = axios.create({
 opensea.interceptors.response.use(responseInterceptor, errorInterceptor('opensea'))
 
 const lambda = axios.create({
-    baseURL: 'http://137.184.115.143:3030/api/',
-    timeout: 3000
+    baseURL: 'http://192.168.50.225:3030/api/',
+    timeout: 10000
 })
 lambda.interceptors.response.use(responseInterceptor, errorInterceptor('lambda'))
+
+const fetchMeta = axios.create()
+fetchMeta.interceptors.response.use(responseInterceptor, (error) => {
+    const msg = typeof error === 'string' ? error : error.message 
+    console.error(`fetchMeta:${msg}`)
+})
 
 export {
     moralis,
     opensea,
-    lambda
+    lambda,
+    fetchMeta
 }

@@ -1,5 +1,7 @@
 import { Seaport } from '@opensea/seaport-js'
 import { ethers } from 'ethers'
+import ERC721 from '../abi/ERC721.json'
+import ERC1155 from '../abi/ERC1155.json'
 
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 
@@ -25,4 +27,23 @@ export const ItemType  = {
 
     // 5: ERC1155 items where a number of ids are supported
     ERC1155_WITH_CRITERIA: 5
+}
+
+export async function amountsNFTInMyWallet(params) {
+    const { type, contract_address, token_id, account } = params
+
+    let contract, balance = 0
+    if (type === 'ERC721') {
+        contract = new ethers.Contract(contract_address, ERC721, provider)
+        balance = await contract.balanceOf(account)
+    } else if (type === 'ERC1155') {
+        contract = new ethers.Contract(contract_address, ERC1155, provider)
+        balance = await contract.balanceOf(account, token_id)
+    } else {
+        throw new Error('wrong nft type')
+    }
+
+    console.log('balance', balance)
+
+    return balance.toNumber() ?? 0
 }

@@ -1,7 +1,7 @@
 import config from './config'
 
 export function convertIPFStoHTTP(link) {
-    if (link.includes("ipfs://")) {
+    if (link?.includes("ipfs://")) {
         return link.replace("ipfs://", config.IPFS_GATEWAY)
     }
     return link

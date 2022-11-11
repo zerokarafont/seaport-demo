@@ -1,19 +1,18 @@
 import { Layout , Spin } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
-import { get1155List } from '../../api/1155'
+import { get721List } from '../../api/721'
 import { NFTCard } from '../../components/NFTCard'
 import styles from './index.module.css'
 
-export const NFT1155List = () => {
+export const NFT721List = () => {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
     const { address } = useAccount()
 
     const fetchData = async () => {
         setLoading(true)
-        const data = await get1155List({ address })
-        console.log('getData', data)
+        const data = await get721List({ address })
         setData(data)
         setLoading(false)
     }
@@ -27,7 +26,7 @@ export const NFT1155List = () => {
             <div className={styles.container}>
                 { loading ? <Spin /> : null }
                 {
-                    data.map(item => <NFTCard key={item.tokenId} data={item} path={`/1155/${item.contract}/${item.tokenId}`}  />)
+                    data.map(item => <NFTCard key={item.tokenId} data={item} path={`/721/${item.contract}/${item.tokenId}`}  />)
                 }
             </div>
         </Layout>

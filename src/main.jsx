@@ -2,9 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
 import { App } from './App'
+import { NFT721List } from './pages/NFT721List'
+import { NFT721Detail } from './pages/NFT721Detail'
 import { NFT1155List } from './pages/NFT1155List'
 import { NFT1155Detail } from './pages/NFT1155Detail'
-import { TestPage } from './pages/TestPage'
+import { MyWalletNFTs } from './pages/Mine'
 import { WagmiConfig, createClient } from 'wagmi'
 import { getDefaultProvider } from 'ethers'
 import * as BufferModule from 'buffer'
@@ -25,11 +27,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/721/list',
-        element: <div>721list</div>
+        element: <NFT721List />
       },
       {
         path: '/721/:contract/:token_id',
-        element: <div>721detail</div>
+        element: <NFT721Detail />
       },
       {
         path: '/1155/list',
@@ -40,10 +42,11 @@ const router = createBrowserRouter([
         element: <NFT1155Detail />
       },
       {
-        path: '/test',
-        element: <TestPage />
+        path: '/account',
+        element: <MyWalletNFTs />
       }
-    ]
+    ],
+    // errorElement: <div>not found</div>
   }
 ])
 
